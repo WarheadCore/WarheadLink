@@ -5,74 +5,74 @@ local function RGBPercToHex(r, g, b)
 	return string.format("%02x%02x%02x", r*255, g*255, b*255)
 end
 
-function KargatumLinkifier_Decompose(chatstring)
+function WarheadLinkifier_Decompose(chatstring)
   if chatstring ~= nil then
     ----------====~~GO Target Command Match Text ~~====----------
     for guid in string.gmatch(chatstring, Strings["lfer_GOtargid1"]) do --TARGET ID
-      chatstring = string.gsub (chatstring, Strings["lfer_GOtargid2"], KargatumLinkifier_Link(Strings["lfer_GOtargid3"], "%2", "targid"))
+      chatstring = string.gsub (chatstring, Strings["lfer_GOtargid2"], WarheadLinkifier_Link(Strings["lfer_GOtargid3"], "%2", "targid"))
     end
     for guid in string.gmatch(chatstring, Strings["lfer_GOtargguid1"]) do --TARGET GUID
-      chatstring = string.gsub (chatstring, Strings["lfer_GOtargguid1"], KargatumLinkifier_Link(Strings["lfer_GOtargguid3"], "%1", "targguid"))
+      chatstring = string.gsub (chatstring, Strings["lfer_GOtargguid1"], WarheadLinkifier_Link(Strings["lfer_GOtargguid3"], "%1", "targguid"))
     end
     for guid in string.gmatch(chatstring, Strings["lfer_GOtargxyz1"]) do --TARGET XYZ
-      chatstring = string.gsub (chatstring, Strings["lfer_GOtargxyz2"], KargatumLinkifier_Link(Strings["lfer_GOtargxyz3"], "1 %2 %3 %4", "targxyz"))
+      chatstring = string.gsub (chatstring, Strings["lfer_GOtargxyz2"], WarheadLinkifier_Link(Strings["lfer_GOtargxyz3"], "1 %2 %3 %4", "targxyz"))
     end
     ----------====~~ NPC Info Command Match Text ~~====----------
     for guid in string.gmatch(chatstring, Strings["lfer_NPCInfoguid1"]) do --NPCINFO GUID
-      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfoguid2"], KargatumLinkifier_Link(Strings["lfer_NPCInfoguid3"], "%1", "npcguid"))
+      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfoguid2"], WarheadLinkifier_Link(Strings["lfer_NPCInfoguid3"], "%1", "npcguid"))
     end
     for guid in string.gmatch(chatstring, Strings["lfer_NPCInfoentry1"]) do --NPCINFO Entry
-      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfoentry2"], KargatumLinkifier_Link(Strings["lfer_NPCInfoentry3"], "%1", "npcentry"))
+      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfoentry2"], WarheadLinkifier_Link(Strings["lfer_NPCInfoentry3"], "%1", "npcentry"))
     end
     for guid in string.gmatch(chatstring, Strings["lfer_NPCInfodisplay1"]) do --NPCINFO Display
-      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfodisplay2"], KargatumLinkifier_Link(Strings["lfer_NPCInfodisplay3"], "%1", "npcdisplay"))
+      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfodisplay2"], WarheadLinkifier_Link(Strings["lfer_NPCInfodisplay3"], "%1", "npcdisplay"))
     end
     for guid in string.gmatch(chatstring, Strings["lfer_NPCInfodisplay21"]) do --NPCINFO Display Native
-      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfodisplay22"], KargatumLinkifier_Link(Strings["lfer_NPCInfodisplay23"], "%1", "npcdisplay2"))
+      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfodisplay22"], WarheadLinkifier_Link(Strings["lfer_NPCInfodisplay23"], "%1", "npcdisplay2"))
     end
     ----------====~~ ADD GO Command Match Text ~~====----------
     for guid in string.gmatch(chatstring, Strings["lfer_AddGoguid1"]) do --ADDGO GUID
-      chatstring = string.gsub (chatstring, Strings["lfer_AddGoguid2"], KargatumLinkifier_Link(Strings["lfer_AddGoguid3"], "%1", "addgoguid"))
+      chatstring = string.gsub (chatstring, Strings["lfer_AddGoguid2"], WarheadLinkifier_Link(Strings["lfer_AddGoguid3"], "%1", "addgoguid"))
     end
     for guid in string.gmatch(chatstring, Strings["lfer_AddGoid1"]) do --ADDGO ID
-      chatstring = string.gsub (chatstring, Strings["lfer_AddGoid2"], KargatumLinkifier_Link(Strings["lfer_AddGoid3"], "%1", "addgoid"))
+      chatstring = string.gsub (chatstring, Strings["lfer_AddGoid2"], WarheadLinkifier_Link(Strings["lfer_AddGoid3"], "%1", "addgoid"))
     end
     for guid in string.gmatch(chatstring, Strings["lfer_AddGoxyz1"]) do --ADDGO XYZ
-      chatstring = string.gsub (chatstring, Strings["lfer_AddGoxyz2"], KargatumLinkifier_Link(Strings["lfer_AddGoxyz3"], "%1 %2 %3", "addgoxyz"))
+      chatstring = string.gsub (chatstring, Strings["lfer_AddGoxyz2"], WarheadLinkifier_Link(Strings["lfer_AddGoxyz3"], "%1 %2 %3", "addgoxyz"))
     end
     ----------====~~ GPS Command Match Text ~~====----------
     for guid in string.gmatch(chatstring, Strings["lfer_GPSxyz1"]) do --GPS XYZ
-      chatstring = string.gsub (chatstring, Strings["lfer_GPSxyz2"], KargatumLinkifier_Link(Strings["lfer_GPSxyz3"], "%1 %2 %3", "gpsxyz"))
+      chatstring = string.gsub (chatstring, Strings["lfer_GPSxyz2"], WarheadLinkifier_Link(Strings["lfer_GPSxyz3"], "%1 %2 %3", "gpsxyz"))
     end
     ----------====~~ Added Options for Clickable Links Made by Mangos ~~====----------
     for guid in string.gmatch(chatstring, "%|cff(.*)%|Hquest:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP quest -- Bug when more than 1 item is linked in chat, it is not  translated
-      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hquest:(.*)%|h%[(.*)%]%|h%|r", KargatumLinkifier_Link("%3-%1", "%2", "lookupquest"))
+      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hquest:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%3-%1", "%2", "lookupquest"))
     end
 	-- for guid in string.gmatch(chatstring, "%+%") do --LOOKUP quest -- Bug when more than 1 item is linked in chat, it is not  translated
-      -- chatstring = string.gsub (chatstring, "%+%", KargatumLinkifier_Link("lookup+"))
+      -- chatstring = string.gsub (chatstring, "%+%", WarheadLinkifier_Link("lookup+"))
     -- end
     for guid in string.gmatch(chatstring, "%|cff(.*)%|Hitem:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP ITEM -- Bug when more than 1 item is linked in chat, it is not  translated
-      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hitem:(.*)%|h%[(.*)%]%|h%|r", KargatumLinkifier_Link("%3-%1", "%2", "lookupitem"))
+      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hitem:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%3-%1", "%2", "lookupitem"))
     end
     for guid in string.gmatch(chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP OBJECT
-      chatstring = string.gsub (chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r", KargatumLinkifier_Link("%2", "%1", "lookupgo"))
+      chatstring = string.gsub (chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%2", "%1", "lookupgo"))
     end
     for guid in string.gmatch(chatstring, "%|cffffffff%|Hcreature_entry:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP CREATURE
-      chatstring = string.gsub (chatstring, "%|cffffffff%|Hcreature_entry:(.*)%|h%[(.*)%]%|h%|r", KargatumLinkifier_Link("%2", "%1", "lookupcreature"))
+      chatstring = string.gsub (chatstring, "%|cffffffff%|Hcreature_entry:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%2", "%1", "lookupcreature"))
     end
     for guid in string.gmatch(chatstring, "%|cff(.*)%|Hspell:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP ITEM -- Bug when more than 1 item is linked in chat, it is not  translated
-      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hspell:(.*)%|h%[(.*)%]%|h%|r", KargatumLinkifier_Link("%3-%1", "%2", "lookupspell"))
+      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hspell:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%3-%1", "%2", "lookupspell"))
     end
     for guid in string.gmatch(chatstring, "%|cffffffff%|Htele:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP TELE
-      chatstring = string.gsub (chatstring, "%|cffffffff%|Htele:(.*)%|h%[(.*)%]%|h%|r", KargatumLinkifier_Link("%2", "%1", "lookuptele"))
+      chatstring = string.gsub (chatstring, "%|cffffffff%|Htele:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%2", "%1", "lookuptele"))
     end
   end
   return chatstring
 end
 
 -- lookup+
-function KargatumLinkifier_Link(orgtxt, id, type)
-  local color = KargatumLink.db.account.style.color.linkifier
+function WarheadLinkifier_Link(orgtxt, id, type)
+  local color = WarheadLink.db.account.style.color.linkifier
   local urlcolor = RGBPercToHex(color.r,color.g,color.b)
   ----------====~~GO Target Command Replace Text ~~====----------
   if(type == "targid") then
@@ -165,7 +165,7 @@ elseif(type == "addgoguid") then
   return link
 end
 
-function KargatumLinkifier_SetItemRef(link, text, button)
+function WarheadLinkifier_SetItemRef(link, text, button)
   ----------====~~Target Command Functions ~~====----------
   if ( strsub(link, 1, 9) == "targidadd" ) then
     SendChatMessage(".gobject add "..strsub(link, 11), say, nil, nil)
@@ -313,5 +313,5 @@ function KargatumLinkifier_SetItemRef(link, text, button)
     SendChatMessage(".tele del "..strsub(link, 18), say, nil, nil)
     return;
   end
-  KargatumLinkifier_SetItemRef_Original(link, text, button);
+  WarheadLinkifier_SetItemRef_Original(link, text, button);
 end

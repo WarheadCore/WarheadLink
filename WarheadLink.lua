@@ -1,7 +1,7 @@
 ﻿-------------------------------------------------------------------------------------------------------------
 --
 -- TrinityAdmin Version 3.x
--- TrinityAdmin is a derivative of KargatumLink.
+-- TrinityAdmin is a derivative of WarheadLink.
 --
 -- Copyright (C) 2007 Free Software Foundation, Inc.
 -- License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
@@ -24,7 +24,7 @@ GPS = ".gps"
 cWorking = 0
 fID = 0
 
-KargatumLink =
+WarheadLink =
   AceLibrary("AceAddon-2.0"):new(
   "AceConsole-2.0",
   "AceDB-2.0",
@@ -33,12 +33,12 @@ KargatumLink =
   "AceDebug-2.0",
   "AceEvent-2.0"
 )
-Locale = AceLibrary("AceLocale-2.2"):new("KargatumLink")
+Locale = AceLibrary("AceLocale-2.2"):new("WarheadLink")
 Strings = AceLibrary("AceLocale-2.2"):new("TEST")
 FrameLib = AceLibrary("FrameLib-1.0")
 
-KargatumLink:RegisterDB("KargatumLinkDb", "KargatumLinkDbPerChar")
-KargatumLink:RegisterDefaults(
+WarheadLink:RegisterDB("WarheadLinkDb", "WarheadLinkDbPerChar")
+WarheadLink:RegisterDefaults(
   "char",
   {
     functionQueue = {},
@@ -65,7 +65,7 @@ KargatumLink:RegisterDefaults(
   }
 )
 
-KargatumLink:RegisterDefaults("account",
+WarheadLink:RegisterDefaults("account",
   {
     language = nil,
     localesearchstring = true,
@@ -111,8 +111,8 @@ KargatumLink:RegisterDefaults("account",
       color = {
         buffer = {},
         buttons = {
-          r = 33, 
-          g = 164, 
+          r = 33,
+          g = 164,
           b = 210
         },
         frames = {
@@ -151,7 +151,7 @@ Strings:RegisterTranslations(
   end
 )
 
-KargatumLink.consoleOpts = {
+WarheadLink.consoleOpts = {
   type = "group",
   args = {
     toggle = {
@@ -159,7 +159,7 @@ KargatumLink.consoleOpts = {
       desc = Locale["cmd_toggle"],
       type = "execute",
       func = function()
-        KargatumLink:OnClick()
+        WarheadLink:OnClick()
       end
     },
     transparency = {
@@ -167,7 +167,7 @@ KargatumLink.consoleOpts = {
       desc = Locale["cmd_transparency"],
       type = "execute",
       func = function()
-        KargatumLink:ToggleTransparency()
+        WarheadLink:ToggleTransparency()
       end
     },
     tooltips = {
@@ -175,7 +175,7 @@ KargatumLink.consoleOpts = {
       desc = Locale["cmd_tooltip"],
       type = "execute",
       func = function()
-        KargatumLink:ToggleTooltips()
+        WarheadLink:ToggleTooltips()
       end
     },
     minimenu = {
@@ -183,31 +183,31 @@ KargatumLink.consoleOpts = {
       desc = "Toogle the toolbar/minimenu",
       type = "execute",
       func = function()
-        KargatumLink:ToggleMinimenu()
+        WarheadLink:ToggleMinimenu()
       end
     }
   }
 }
 
-function KargatumLink:OnInitialize()
-  -- initializing KargatumLink
+function WarheadLink:OnInitialize()
+  -- initializing WarheadLink
   self:SetLanguage()
   -- those all hook the AddMessage method of the chat frames.
-  -- They will be redirected to KargatumLink:AddMessage(...)
+  -- They will be redirected to WarheadLink:AddMessage(...)
   for i = 1, NUM_CHAT_WINDOWS do
     local cf = getglobal("ChatFrame" .. i)
     self:Hook(cf, "AddMessage", true)
   end
   --altering the function setitemref, to make it possible to click links
-  KargatumLinkifier_SetItemRef_Original = SetItemRef
-  SetItemRef = KargatumLinkifier_SetItemRef
+  WarheadLinkifier_SetItemRef_Original = SetItemRef
+  SetItemRef = WarheadLinkifier_SetItemRef
   self.db.char.msgDeltaTime = time()
 end
 
-function KargatumLink:AddMessage(frame, text, r, g, b, id)
+function WarheadLink:AddMessage(frame, text, r, g, b, id)
   -- frame is the object that was hooked (one of the ChatFrames)
   local catchedSth = false
-  local output = KargatumLink.db.account.style.showchat
+  local output = WarheadLink.db.account.style.showchat
   if id == 1 then --make sure that the message comes from the server, message id = 1
     --Catches if Toggle is still on for some reason, but search frame is not up, and disables it so messages arent caught
     if self.db.char.requests.toggle and not ma_popupframe:IsVisible() then
@@ -218,23 +218,23 @@ function KargatumLink:AddMessage(frame, text, r, g, b, id)
       if output == false then
         -- don't output anything
       elseif output == true then
-        text = KargatumLinkifier_Decompose(text)
+        text = WarheadLinkifier_Decompose(text)
         self.hooks[frame].AddMessage(frame, text, r, g, b, id)
       end
     else
-      text = KargatumLinkifier_Decompose(text)
+      text = WarheadLinkifier_Decompose(text)
       self.hooks[frame].AddMessage(frame, text, r, g, b, id)
     end
   else
     -- message is not from server
     --Linkifier should be used on non server messages as well to catch links suc as items in chat
-    text = KargatumLinkifier_Decompose(text)
+    text = WarheadLinkifier_Decompose(text)
     -- Returns the message to the client, or else the chat frame never shows it
     self.hooks[frame].AddMessage(frame, text, r, g, b, id)
   end
 end
 
-function KargatumLink:SetLanguage()
+function WarheadLink:SetLanguage()
   if self.db.account.language then
     Locale:SetLocale(self.db.account.language)
     if self.db.account.localesearchstring then
