@@ -1,22 +1,19 @@
-﻿-------------------------------------------------------------------------------------------------------------
+﻿--
+-- This file is part of the WarheadCore Project. See AUTHORS file for Copyright information
 --
--- TrinityAdmin Version 3.x
--- TrinityAdmin is a derivative of MangAdmin.
+-- This program is free software; you can redistribute it and/or modify it
+-- under the terms of the GNU Affero General Public License as published by the
+-- Free Software Foundation; either version 3 of the License, or (at your
+-- option) any later version.
 --
--- Copyright (C) 2007 Free Software Foundation, Inc.
--- License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
--- This is free software: you are free to change and redistribute it.
--- There is NO WARRANTY, to the extent permitted by law.
+-- This program is distributed in the hope that it will be useful, but WITHOUT
+-- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+-- FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for
+-- more details.
 --
--- You should have received a copy of the GNU General Public License
--- along with this program; if not, write to the Free Software
--- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-- You should have received a copy of the GNU General Public License along
+-- with this program. If not, see <http://www.gnu.org/licenses/>.
 --
--- Official Forums: http://groups.google.com/group/trinityadmin
--- GoogleCode Website: http://code.google.com/p/trinityadmin/
--- Subversion Repository: http://trinityadmin.googlecode.com/svn/
--- Dev Blog: http://trinityadmin.blogspot.com/
--------------------------------------------------------------------------------------------------------------
 
 function Return_ruRU()
   return {

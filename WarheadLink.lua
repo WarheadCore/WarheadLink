@@ -1,28 +1,21 @@
-﻿-------------------------------------------------------------------------------------------------------------
+﻿--
+-- This file is part of the WarheadCore Project. See AUTHORS file for Copyright information
 --
--- TrinityAdmin Version 3.x
--- TrinityAdmin is a derivative of WarheadLink.
+-- This program is free software; you can redistribute it and/or modify it
+-- under the terms of the GNU Affero General Public License as published by the
+-- Free Software Foundation; either version 3 of the License, or (at your
+-- option) any later version.
 --
--- Copyright (C) 2007 Free Software Foundation, Inc.
--- License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
--- This is free software: you are free to change and redistribute it.
--- There is NO WARRANTY, to the extent permitted by law.
+-- This program is distributed in the hope that it will be useful, but WITHOUT
+-- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+-- FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for
+-- more details.
 --
--- You should have received a copy of the GNU General Public License
--- along with this program; if not, write to the Free Software
--- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-- You should have received a copy of the GNU General Public License along
+-- with this program. If not, see <http://www.gnu.org/licenses/>.
 --
--- Official Forums: http://groups.google.com/group/trinityadmin
--- GoogleCode Website: http://code.google.com/p/trinityadmin/
--- Subversion Repository: http://trinityadmin.googlecode.com/svn/
--- Dev Blog: http://trinityadmin.blogspot.com/
--------------------------------------------------------------------------------------------------------------
-print "|cFFFF0000[Kargatum Link]|cff6C8CD5 Аддон загружен"
-local genv = getfenv(0)
-local Kargatum = genv.Kargatum
-GPS = ".gps"
-cWorking = 0
-fID = 0
+
+print "|cFFFF0000[Warhead Link]:|cff6C8CD5 Addon loaded"
 
 WarheadLink =
   AceLibrary("AceAddon-2.0"):new(
@@ -35,7 +28,7 @@ WarheadLink =
 )
 Locale = AceLibrary("AceLocale-2.2"):new("WarheadLink")
 Strings = AceLibrary("AceLocale-2.2"):new("TEST")
-FrameLib = AceLibrary("FrameLib-1.0")
+-- FrameLib = AceLibrary("FrameLib-1.0")
 
 WarheadLink:RegisterDB("WarheadLinkDb", "WarheadLinkDbPerChar")
 WarheadLink:RegisterDefaults(
@@ -69,7 +62,8 @@ WarheadLink:RegisterDefaults("account",
   {
     language = nil,
     localesearchstring = true,
-    favorites = {
+    favorites =
+    {
       items = {},
       itemsets = {},
       spells = {},
@@ -79,7 +73,8 @@ WarheadLink:RegisterDefaults("account",
       objects = {},
       teles = {}
     },
-    buffer = {
+    buffer =
+    {
       tickets = {},
       items = {},
       itemsets = {},
@@ -91,41 +86,48 @@ WarheadLink:RegisterDefaults("account",
       teles = {},
       counter = 0
     },
-    tickets = {
+    tickets =
+    {
       selected = 0,
       count = 0,
       requested = 0,
       playerinfo = {},
       loading = false
     },
-    style = {
+    style =
+    {
       updatedelay = "4000",
       showtooltips = true,
       showchat = false,
       showminimenu = true,
-      transparency = {
+      transparency =
+      {
         buttons = 1.0,
         frames = 0.7,
         backgrounds = 0.5
       },
       color = {
         buffer = {},
-        buttons = {
+        buttons =
+        {
           r = 33,
           g = 164,
           b = 210
         },
-        frames = {
+        frames =
+        {
           r = 102,
           g = 102,
           b = 102
         },
-        backgrounds = {
+        backgrounds =
+        {
           r = 0,
           g = 0,
           b = 0
         },
-        linkifier = {
+        linkifier =
+        {
           r = 0.8705882352941177,
           g = 0.3725490196078432,
           b = 0.1411764705882353

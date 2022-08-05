@@ -1,3 +1,20 @@
+--
+-- This file is part of the WarheadCore Project. See AUTHORS file for Copyright information
+--
+-- This program is free software; you can redistribute it and/or modify it
+-- under the terms of the GNU Affero General Public License as published by the
+-- Free Software Foundation; either version 3 of the License, or (at your
+-- option) any later version.
+--
+-- This program is distributed in the hope that it will be useful, but WITHOUT
+-- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+-- FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for
+-- more details.
+--
+-- You should have received a copy of the GNU General Public License along
+-- with this program. If not, see <http://www.gnu.org/licenses/>.
+--
+
 local function RGBPercToHex(r, g, b)
 	r = r <= 1 and r >= 0 and r or 0
 	g = g <= 1 and g >= 0 and g or 0
@@ -44,15 +61,16 @@ function WarheadLinkifier_Decompose(chatstring)
     for guid in string.gmatch(chatstring, Strings["lfer_GPSxyz1"]) do --GPS XYZ
       chatstring = string.gsub (chatstring, Strings["lfer_GPSxyz2"], WarheadLinkifier_Link(Strings["lfer_GPSxyz3"], "%1 %2 %3", "gpsxyz"))
     end
+
     ----------====~~ Added Options for Clickable Links Made by Mangos ~~====----------
-    for guid in string.gmatch(chatstring, "%|cff(.*)%|Hquest:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP quest -- Bug when more than 1 item is linked in chat, it is not  translated
-      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hquest:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%3-%1", "%2", "lookupquest"))
+    for guid in string.gmatch(chatstring, "%|cff(.*)%|Hquest:([0-9]+)(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP quest -- Bug when more than 1 item is linked in chat, it is not  translated
+      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hquest:([0-9]+)(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%4-%1", "%2", "lookupquest"))
     end
-	-- for guid in string.gmatch(chatstring, "%+%") do --LOOKUP quest -- Bug when more than 1 item is linked in chat, it is not  translated
+	  -- for guid in string.gmatch(chatstring, "%+%") do --LOOKUP quest -- Bug when more than 1 item is linked in chat, it is not  translated
       -- chatstring = string.gsub (chatstring, "%+%", WarheadLinkifier_Link("lookup+"))
     -- end
-    for guid in string.gmatch(chatstring, "%|cff(.*)%|Hitem:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP ITEM -- Bug when more than 1 item is linked in chat, it is not  translated
-      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hitem:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%3-%1", "%2", "lookupitem"))
+    for guid in string.gmatch(chatstring, "%|cff(.*)%|Hitem:([0-9]+)(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP ITEM -- Bug when more than 1 item is linked in chat, it is not  translated
+      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hitem:([0-9]+)(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%4-%1", "%2", "lookupitem"))
     end
     for guid in string.gmatch(chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP OBJECT
       chatstring = string.gsub (chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r", WarheadLinkifier_Link("%2", "%1", "lookupgo"))
@@ -74,90 +92,72 @@ end
 function WarheadLinkifier_Link(orgtxt, id, type)
   local color = WarheadLink.db.account.style.color.linkifier
   local urlcolor = RGBPercToHex(color.r,color.g,color.b)
-  ----------====~~GO Target Command Replace Text ~~====----------
+
   if(type == "targid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Htargidadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Htargidlist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
-
   elseif(type == "targguid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Htargguidgo:" .. id .. "|h["..Locale["lfer_Goto"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Htargguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Htargguidturn:" .. id .. "|h["..Locale["lfer_Turn"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Htargguiddel:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r \n"
-
   elseif(type == "targxyz") then
     link = orgtxt .."|cff" .. urlcolor .. "|Htargxyz:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "
-  
-    ----------====~~ NPC Info Command Replace Text ~~====----------
   elseif(type == "npcguid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcguidgo:" .. id .. "|h["..Locale["lfer_Goto"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Hnpcguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
-
-elseif(type == "npcentry") then
-  link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcentryadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
-	link = link .." - |cff" .. urlcolor .. "|Hnpcentrylist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
-	link = link .." - |cff" .. urlcolor .. "|Hnpcentrylog:" .. id .. "|h["..Locale["lfer_Log"].."]|h|r "
-	link = link .." - |cff" .. urlcolor .. "|Hnpcentrymov:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
-  
-elseif(type == "npcdisplay") then
+  elseif(type == "npcentry") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcentryadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hnpcentrylist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hnpcentrylog:" .. id .. "|h["..Locale["lfer_Log"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hnpcentrymov:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
+  elseif(type == "npcdisplay") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcdisplay:" .. id .. "|h["..Locale["lfer_Morph"].."]|h|r "
-  
-  
-elseif(type == "npcdisplay2") then
+  elseif(type == "npcdisplay2") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcdisplay2:" .. id .. "|h["..Locale["lfer_Morph"].."]|h|r "
-  ----------====~~ ADD GO Command Replace Text ~~====----------
-  
-elseif(type == "addgoguid") then
+  elseif(type == "addgoguid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Haddgoguidgo:" .. id .. "|h["..Locale["lfer_Goto"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Haddgoguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Haddgoguidturn:" .. id .. "|h["..Locale["lfer_Turn"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Haddgoguiddel:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r \n"
-  
   elseif(type == "addgoid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Haddgoid:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r \n"
-  
   elseif(type == "addgoxyz") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Haddgoxyz:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "
-  ----------====~~ GPS Command Replace Text ~~====----------
   elseif(type == "gpsxyz") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Hgpsxyz:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "
-  ----------====~~ Added Options for Clickable Links Made by Mangos ~~====----------
   elseif(type == "lookupquest") then
     for orgtxt, color in string.gmatch (orgtxt, "(.*)%-(.*)") do
     link = "|cff" .. color .."|Hquest:" .. id .. "|h[" .. orgtxt .. "]|h|r"
     link = link .." - |cff" .. urlcolor .. "|Hlookupquestadd:" .. id .. "|h["..Locale["lfer_Add"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Hlookupquestrem:" .. id .. "|h["..Locale["lfer_Remove"].."]|h|r "
-	link = link .." - |cff" .. urlcolor .. "|Hlookupquestcom:" .. id .. "|h["..Locale["lfer_Complete"].."]|h|r "
+	  link = link .." - |cff" .. urlcolor .. "|Hlookupquestcom:" .. id .. "|h["..Locale["lfer_Complete"].."]|h|r "
     end
   elseif(type == "lookupitem") then
     for orgtxt, color in string.gmatch (orgtxt, "(.*)%-(.*)") do
       link = "|cff" .. color .."|Hitem:" .. id .. "|h[" .. orgtxt .. "]|h|r"
       link = link .." - |cff" .. urlcolor .. "|Hlookupitemadd:" .. id .. "|h["..Locale["lfer_Add"].."]|h|r "
-      --link = link .." - |cff" .. urlcolor .. "|Hlookupitemlist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
-	  link = link .." - |cff" .. urlcolor .. "|Hlookupitemdel:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r "
-	  link = link .." - |cff" .. urlcolor .. "|Hlookupitemadnpc:" .. id .. "|h["..Locale["lfer_AddNpc"].."]|h|r "
+      link = link .." - |cff" .. urlcolor .. "|Hlookupitemdel:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r "
     end
   elseif(type == "lookupgo") then
     link = "|cffffffff|Hgameobject_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
     link = link .." - |cff" .. urlcolor .. "|Hlookupgoadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Hlookupgolist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
-  
   elseif(type == "lookupcreature") then
     link = "|cffffffff|Hcreature_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
     link = link .." - |cff" .. urlcolor .. "|Hlookupcreatureadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Hlookupcreaturelist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
-   
   elseif(type == "lookupspell") then
     for orgtxt, color in string.gmatch (orgtxt, "(.*)%-(.*)") do
     link = "|cff" .. color .."|Hspell:" .. id .. "|h[" .. orgtxt .. "]|h|r"
     link = link .." - |cff" .. urlcolor .. "|Hlookupspelllearn:" .. id .. "|h["..Locale["lfer_Learn"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Hlookupspellunlearn:" .. id .. "|h["..Locale["lfer_Unlearn"].."]|h|r "
-	link = link .." - |cff" .. urlcolor .. "|Hlookupspell+aura:" .. id .. "|h["..Locale["lfer_+Aura"].."]|h|r "
-	link = link .." - |cff" .. urlcolor .. "|Hlookupspell-aura:" .. id .. "|h["..Locale["lfer_-Aura"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hlookupspell+aura:" .. id .. "|h["..Locale["lfer_+Aura"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hlookupspell-aura:" .. id .. "|h["..Locale["lfer_-Aura"].."]|h|r "
     end
   elseif(type == "lookuptele") then
-	link = "|cffffffff|Htele:" .. id .. "|h[" .. orgtxt .. "]|h|r"
-	link = link .." - |cff" .. urlcolor .. "|Hlookuptelego:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "
+    link = "|cffffffff|Htele:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = link .." - |cff" .. urlcolor .. "|Hlookuptelego:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Hlookupteledelete:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r "
   else
     link = orgtxt .." |cffc20000"..Locale["lfer_Error"].." |r |cff008873" .. type .. "|r"
@@ -199,11 +199,11 @@ function WarheadLinkifier_SetItemRef(link, text, button)
     SendChatMessage(".npc add "..strsub(link, 13), say, nil, nil)
     return;
   elseif ( strsub(link, 1, 11) == "npcentrylog" ) then
-  print ("|cFFFF0000[Unell Admin]:|cff6C8CD5 Перезагрузка всех нпц")
-	SendChatMessage(".reload smart_scripts");
-	SendChatMessage(".reload creature_template");
-	SendChatMessage(".reload creature_loot_template");
-	SendChatMessage(".reload locales_creature");
+    print ("|cFFFF0000[Unell Admin]:|cff6C8CD5 Перезагрузка всех нпц")
+    SendChatMessage(".reload smart_scripts");
+    SendChatMessage(".reload creature_template");
+    SendChatMessage(".reload creature_loot_template");
+    SendChatMessage(".reload locales_creature");
     return;
   elseif ( strsub(link, 1, 11) == "npcentrymov" ) then
   print ("|cFFFF0000[Unell Admin]:|cff6C8CD5 Переезд моба")
@@ -243,7 +243,7 @@ function WarheadLinkifier_SetItemRef(link, text, button)
     return;
   ----------====~~ GPS Command Functions ~~====----------
   elseif ( strsub(link, 1, 6) == "gpsxyz" ) then
-    SendChatMessage(".go  "..strsub(link, 8), say, nil, nil)
+    SendChatMessage(".go xyz "..strsub(link, 8), say, nil, nil)
     return;
   ----------====~~ Support for Clickable Links Made by Mangos and Added Options ~~====----------
   elseif ( strsub(link, 1, 14) == "lookupquestadd" ) then
